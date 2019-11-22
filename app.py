@@ -22,11 +22,13 @@ class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     #nwm jak tutaj wiele uzytkownikow zrobic
-    users = db.relationship("User", backref = "event")
+    #tutaj jebie sie
+    #users = db.relationship("User", backref="event")
     description = db.Column(db.String(80), nullable=False)
     date = db.Column(db.DATE, nullable=False)
     time = db.Column(db.TIME, nullable=False)
     auditorium = db.Column(db.Integer, db.ForeignKey('auditorium.id'))
+
 
 @app.route('/')
 def home():
@@ -41,6 +43,34 @@ def user_site():
 @app.route('/admin')
 def admin_site():
     return render_template("admin.html")
+
+#to tylko wstepne ale nie ogarniam bazy totalnie czy to jest git w
+# przypadku jak relacje bo to by była ta sama metoda dla kazdej tabeli xdd
+@app.route('/admin/add-event')
+def add_event(event):
+    db.session.add(event)
+    db.session.commit()
+
+
+@app.route('/admin/delete-event')
+def delete_event(event):
+    db.session.delete(event)
+    db.session.commit()
+
+
+@app.route('admin/get-event/<id>')
+def get_event(id):
+    return Event.query.get(id)
+
+
+@app.route('admin/all-events')
+def get_all_event():
+    return Event.query.all()
+
+
+@app.route('admin/get-auditorium/<id>')
+def get_auditorium(id):
+    return Auditorium.get(id)
 
 
 if __name__ == '__main__':
