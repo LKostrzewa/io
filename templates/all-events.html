@@ -8,4 +8,18 @@
 {% endblock %}
 {% block body %}
     <h1>Wszystkie wydarzenia</h1>
+    <table class=todos>
+      <tr>
+        <th>#
+        <th>Nazwa
+        <th>Opis
+        <th>Data
+      {%- for e in events %}
+      <tr class=title>
+         <td>{{ e.id }}
+         <td>{{ e.name }}
+         <td>{{ e.description }}
+         <td>{{ e.date.strftime('%Y-%m-%d %H:%M') }}
+      {%- endfor %}
+    </table>
 {% endblock %}

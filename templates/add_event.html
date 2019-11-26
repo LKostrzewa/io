@@ -19,10 +19,7 @@
             <input type=text name=desc value="{{ request.form.desc }}">
         <p>
             Data:
-            <input type=date name=date value="{{ request.form.date }}">
-        <p>
-            Czas:
-            <input type=time name=time value="{{ request.form.time }}">
+            <input type=datetime-local name=date value="{{ request.form.date }}">
         <p>
             <input type=submit value="Stwórz wydarzenie">
             <a href="{{ url_for('get_all_event') }}">Powrót do wszystkich wydarzenie</a>
