@@ -8,21 +8,4 @@
 {% endblock %}
 {% block body %}
     <h1>Wszystkie wydarzenia</h1>
-    <form action="{{ url_for('update_done') }}" method=post>
-        <table class=events>
-          <tr>
-            <th>#
-            <th>Name
-            <th>Descryption
-            <th>Date
-            <th>Time
-            <th>Auditorium
-            <th>Users
-          {%- for event in events %}
-          <tr class=title>
-            <td>{{ event.id }}
-            <td>{{ event.name }}
-          {%- endfor %}
-        </table>
-    </form>
 {% endblock %}

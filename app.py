@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -11,8 +11,9 @@ class Auditorium(db.Model):
     maxPlaces = db.Column(db.Integer)
     number = db.Column(db.Integer)
 
+
 # klasa laczaca user z event ( bo jest to relacja many-to-many) - nazwe lepsza trzeba wybrac
-tags = db.table('tags',
+tags = db.Table('tags',
                 db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
                 db.Column('event_id', db.Integer, db.ForeignKey('event.id'), primary_key=True)
                 )
@@ -25,7 +26,6 @@ class User(db.Model):
 
 
 class Event(db.Model):
-    __tablename__ = 'events'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     # nwm jak tutaj wiele uzytkownikow zrobic
@@ -33,9 +33,21 @@ class Event(db.Model):
     description = db.Column(db.String(80), nullable=False)
     date = db.Column(db.DATE, nullable=False)
     time = db.Column(db.TIME, nullable=False)
-    auditorium = db.Column(db.Integer, db.ForeignKey('auditorium.id'))
-    tags = db.relationship('Tag', secondary=tags, lazy='subquery',
-                           backref=db.backref('event', lazy=True))
+    # auditorium = db.Column(db.Integer, db.ForeignKey('auditorium.id'))
+    # tags = db.relationship('User', secondary=tags, lazy='subquery',
+    #                        backref=db.backref('event', lazy=True))
+
+    def __init__(self, id, name, description, date, time):#, auditorium, tags):
+        self.id = id
+        self.name = name
+        self.description = description
+        self.date = date
+        self.time = time
+        # self.auditorium = auditorium
+        # self.tags = tags
+
+
+db.create_all()
 
 
 @app.route('/')
@@ -52,12 +64,29 @@ def user_site():
 def admin_site():
     return render_template("admin.html")
 
+
 # to tylko wstepne ale nie ogarniam bazy totalnie czy to jest git w
 # przypadku jak relacje bo to by była ta sama metoda dla kazdej tabeli xdd
-@app.route('/admin/add-event')
-def add_event(event):
-    db.session.add(event)
-    db.session.commit()
+@app.route('/admin/add-event', methods=['GET', 'POST'])
+# def add_event(event):
+#     db.session.add(event)
+#     db.session.commit()
+def add_event():
+    if request.method == 'POST':
+        #if not request.form['name']:
+            # dodac wyjatek jak nie przekazany parametr name + inne (albo w formularzu)
+        print(request.form['id'])
+        print(request.form['name'])
+        print(request.form['desc'])
+        print(request.form['date'])
+        print(request.form['time'])
+        db.session.add(Event(id=request.form['id'], name=request.form['name'], description=request.form['desc'],
+                             date=request.form['date'], time=request.form['time']))
+                             #, request.form['auditorium'],
+                             # request.form['tags']))
+        db.session.commit()
+        return redirect(url_for('get_all_event'))
+    return render_template('add_event.html')
 
 
 @app.route('/admin/delete-event')

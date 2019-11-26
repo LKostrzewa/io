@@ -5,8 +5,8 @@
     <title>Strona administratora</title>
 </head>
 <body>
-    <p>Stwórz wydarzenie</p>
+    <p><a href={{ url_for('add_event') }}>Stwórz wydarzenie</a></p>
     <p>Dodaj użytkownika do wydarzenia</p>
-    <p><a href="/admin/all-events">Wszystkie wydarzena</a></p>
+    <p><a href={{ url_for('get_all_event') }}>Wszystkie wydarzena</a></p>
 </body>
 </html>

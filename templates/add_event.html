@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block title %}Dodaj wydarzenie{% endblock %}
+{% block head %}
+    {{ super() }}
+    <style>
+    </style>
+{% endblock %}
+{% block body %}
+    <h1>Dodaj nowe wydarzenie</h1>
+    <form action="" method=post>
+        <p>
+            Identyfikator:
+            <input type=number name=id value="{{ request.form.id }}">
+        <p>
+            Nazwa wydarzenia:
+            <input type=text name=name value="{{ request.form.name }}">
+        <p>
+            Opis wydarzenia:
+            <input type=text name=desc value="{{ request.form.desc }}">
+        <p>
+            Data:
+            <input type=date name=date value="{{ request.form.date }}">
+        <p>
+            Czas:
+            <input type=time name=time value="{{ request.form.time }}">
+        <p>
+            <input type=submit value="Stwórz wydarzenie">
+            <a href="{{ url_for('get_all_event') }}">Powrót do wszystkich wydarzenie</a>
+  </form>
+{% endblock %}
