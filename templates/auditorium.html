@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block title %}{{ auditorium.id }}{% endblock %}
+{% block head %}
+    {{ super() }}
+    <style>
+    </style>
+{% endblock %}
+{% block body %}
+    <h1>Szczegóły sali o id {{ event.id }}</h1>
+{% endblock %}

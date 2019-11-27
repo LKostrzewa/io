@@ -34,15 +34,16 @@ class Event(db.Model):
     description = db.Column(db.String)
     date = db.Column(db.DateTime)
     # time = db.Column(db.Time)
-    # auditorium = db.Column(db.Integer, db.ForeignKey('auditorium.id'))
+    auditorium = db.Column(db.Integer, db.ForeignKey('auditorium.id'))
     # tags = db.relationship('User', secondary=tags, lazy='subquery',
     #                        backref=db.backref('event', lazy=True))
 
-    def __init__(self, id, name, description, date):#, auditorium, tags):
+    def __init__(self, id, name, description, date, auditorium):#, auditorium, tags):
         self.id = id
         self.name = name
         self.description = description
         self.date = date
+        self.auditorium = auditorium
         # self.auditorium = auditorium
         # self.tags = tags
 
@@ -73,21 +74,13 @@ def admin_site():
 #     db.session.commit()
 def add_event():
     if request.method == 'POST':
-        #if not request.form['name']:
-            # dodac wyjatek jak nie przekazany parametr name + inne (albo w formularzu)
-        print(request.form['id'])
-        print(request.form['name'])
-        print(request.form['desc'])
-        print(request.form['date'])
         data = datetime.datetime(*[int(v) for v in request.form['date'].replace('T', '-').replace(':', '-').split('-')])
         event = Event(id=request.form['id'], name=request.form['name'], description=request.form['desc'],
-                      date=data)
+                      date=data, auditorium=request.form['auditorium'])
         db.session.add(event)
-                             #, request.form['auditorium'],
-                             # request.form['tags']))
         db.session.commit()
         return redirect(url_for('get_all_event'))
-    return render_template('add_event.html')
+    return render_template('add_event.html', auditoriums=Auditorium.query.all())
 
 
 @app.route('/admin/delete-event/<id>')
@@ -120,7 +113,9 @@ def get_all_auditoriums():
 
 @app.route('/admin/get-auditorium/<id>')
 def get_auditorium(id):
-    return Auditorium.get(id)
+    return render_template('auditorium.html',
+                           auditorium=Auditorium.query.get_or_404(id)
+                           )
 
 @app.route('/admin/add-auditorium', methods=['GET', 'POST'])
 def add_auditorium():

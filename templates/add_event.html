@@ -21,6 +21,13 @@
             Data:
             <input type=datetime-local name=date value="{{ request.form.date }}">
         <p>
+            Dodaj sale:
+            <select name="auditorium">
+                {% for aud in auditoriums %}
+                <option value="{{ request.form.auditorium }}">{{ aud.number }}</option>
+                {% endfor %}
+            </select>
+        <p>
             <input type=submit value="Stwórz wydarzenie">
             <a href="{{ url_for('get_all_event') }}">Powrót do wszystkich wydarzenie</a>
   </form>

@@ -21,6 +21,7 @@
          <td>{{ e.description }}
          <td>{{ e.date.strftime('%Y-%m-%d %H:%M') }}
          <td><a href={{ url_for('get_event', id=e.id) }}>Szczegóły wydarzenia {{ e.id }}</a>
+         <td><a href={{ url_for('get_auditorium', id=e.auditorium) }}>Sala {{ e.auditorium }}</a>
       {%- endfor %}
     </table>
     <p><a href="{{ url_for('get_all_auditoriums') }}">Wszystkie sale</a></p>
