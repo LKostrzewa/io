@@ -90,21 +90,31 @@ def add_event():
     return render_template('add_event.html')
 
 
-@app.route('/admin/delete-event')
-def delete_event(event):
-    db.session.delete(event)
+@app.route('/admin/delete-event/<id>')
+def delete_event(id):
+    db.session.delete(Event.query.get_or_404(id))
     db.session.commit()
+    return redirect(url_for('get_all_event'))
 
 
 @app.route('/admin/get-event/<id>')
 def get_event(id):
-    return Event.query.get_or_404(id)
+    return render_template('event.html',
+                           event=Event.query.get_or_404(id)
+                           )
 
 
 @app.route('/admin/all-events')
 def get_all_event():
     return render_template('all-events.html',
                            events=Event.query.order_by(Event.id.desc()).all()
+                           )
+
+
+@app.route('/admin/auditorium')
+def get_all_auditoriums():
+    return render_template('all-auditoriums.html',
+                           auditoriums=Auditorium.query.order_by(Auditorium.number).all()
                            )
 
 

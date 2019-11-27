@@ -1,14 +1,13 @@
-
 {% extends "layout.html" %}
-{% block title %}Wszystkie wydarzenia{% endblock %}
+{% block title %}Wszystkie sale{% endblock %}
 {% block head %}
     {{ super() }}
     <style>
     </style>
 {% endblock %}
 {% block body %}
-    <h1>Wszystkie wydarzenia</h1>
-    <table class=events>
+    <h1>Wszystkie sale</h1>
+    <table class=todos>
       <tr>
         <th>#
         <th>Nazwa
@@ -20,7 +19,6 @@
          <td>{{ e.name }}
          <td>{{ e.description }}
          <td>{{ e.date.strftime('%Y-%m-%d %H:%M') }}
-         <td><a href={{ url_for('get_event', id=e.id) }}>Szczegóły wydarzenia {{ e.id }}</a>
       {%- endfor %}
     </table>
 {% endblock %}
