@@ -122,6 +122,15 @@ def get_all_auditoriums():
 def get_auditorium(id):
     return Auditorium.get(id)
 
+@app.route('/admin/add-auditorium', methods=['GET', 'POST'])
+def add_auditorium():
+    if request.method == 'POST':
+        auditorium = Auditorium(id=request.form['id'], maxPlaces=request.form['maxPlaces'], number=request.form['number'])
+        db.session.add(auditorium)
+        db.session.commit()
+        return redirect(url_for('get_all_auditoriums'))
+    return render_template('add_auditorium.html')
+
 
 if __name__ == '__main__':
     app.run()

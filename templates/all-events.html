@@ -23,4 +23,5 @@
          <td><a href={{ url_for('get_event', id=e.id) }}>Szczegóły wydarzenia {{ e.id }}</a>
       {%- endfor %}
     </table>
+    <p><a href="{{ url_for('get_all_auditoriums') }}">Wszystkie sale</a></p>
 {% endblock %}

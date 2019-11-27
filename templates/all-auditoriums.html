@@ -10,15 +10,13 @@
     <table class=todos>
       <tr>
         <th>#
-        <th>Nazwa
-        <th>Opis
-        <th>Data
-      {%- for e in events %}
+        <th>Liczba osób mieszczących się w sali
+        <th>Numer sali (?)
+      {%- for a in auditoriums %}
       <tr class=title>
-         <td>{{ e.id }}
-         <td>{{ e.name }}
-         <td>{{ e.description }}
-         <td>{{ e.date.strftime('%Y-%m-%d %H:%M') }}
+         <td>{{ a.id }}
+         <td>{{ a.maxPlaces }}
+         <td>{{ a.number }}
       {%- endfor %}
     </table>
 {% endblock %}
